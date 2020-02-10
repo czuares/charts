@@ -323,7 +323,11 @@ spec:
         name: {{ .Values.persistentVolume.name }}
         annotations:
         {{- range $key, $value := .Values.persistentVolume.annotations }}
-          {{ $key }}: {{ $value }}
+          {{ $key }}: {{ tpl ($value | toString) $ | quote }}
+        {{- end }}
+        labels:
+        {{- range $key, $value := .Values.persistentVolume.labels }}
+          {{ $key }}: {{ tpl ($value | toString) $ | quote }}
         {{- end }}
       spec:
         accessModes:

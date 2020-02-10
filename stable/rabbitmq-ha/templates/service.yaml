@@ -3,7 +3,9 @@ kind: Service
 metadata:
 {{- if .Values.service.annotations }}
   annotations:
-{{ toYaml .Values.service.annotations | indent 4 }}
+{{- range $key, $value := .Values.service.annotations }}
+    {{ $key }}: {{ tpl ($value | toString) $ | quote }}
+{{- end }}
 {{- end }}
   name: {{ template "rabbitmq-ha.fullname" . }}
   namespace: {{ .Release.Namespace }}
